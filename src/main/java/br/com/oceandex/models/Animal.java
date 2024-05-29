@@ -51,4 +51,7 @@ public class Animal {
                 joinColumns = @JoinColumn(name = "ID_ANIMAL"),
                 inverseJoinColumns = @JoinColumn(name = "ID_HABITAT"))
     private List<Habitat> habitats;
+
+    @OneToMany(mappedBy = "animal", fetch = FetchType.LAZY)
+    private List<IdentificacaoDoAnimal> identificacoesDoAnimal;
 }

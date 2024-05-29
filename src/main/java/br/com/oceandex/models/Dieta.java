@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "OD_DIETA")
 @Getter @Setter
@@ -22,4 +24,7 @@ public class Dieta {
 
     @Column(name = "DESC_DIETA", length = 200, nullable = false)
     private String descricao;
+
+    @OneToMany(mappedBy = "dieta", fetch = FetchType.LAZY)
+    private List<Animal> animais;
 }

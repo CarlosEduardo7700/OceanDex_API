@@ -40,4 +40,8 @@ public class Animal {
     @ManyToOne
     @JoinColumn(name = "ID_ESPECIE", nullable = false)
     private Especie especie;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_DIETA", nullable = false)
+    private Dieta dieta;
 }

@@ -36,4 +36,8 @@ public class Animal {
 
     @Column(name = "DT_CAD_ANIMAL", nullable = false)
     private LocalDate dataDeCadastro;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_ESPECIE", nullable = false)
+    private Especie especie;
 }

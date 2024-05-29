@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "OD_ESPECIE")
@@ -27,4 +28,7 @@ public class Especie {
 
     @Column(name = "DT_CADASTRO", nullable = false)
     private LocalDate dataDeCadastro;
+
+    @OneToMany(mappedBy = "especie", fetch = FetchType.LAZY)
+    private List<Animal> animais;
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "OD_ANIMAL")
@@ -44,4 +45,10 @@ public class Animal {
     @ManyToOne
     @JoinColumn(name = "ID_DIETA", nullable = false)
     private Dieta dieta;
+
+    @ManyToMany
+    @JoinTable(name = "OD_HABITAT_ANIMAL",
+                joinColumns = @JoinColumn(name = "ID_ANIMAL"),
+                inverseJoinColumns = @JoinColumn(name = "ID_HABITAT"))
+    private List<Habitat> habitats;
 }

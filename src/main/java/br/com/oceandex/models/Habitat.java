@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "OD_HABITAT")
@@ -36,4 +37,7 @@ public class Habitat {
 
     @Column(name = "DT_CADASTRO", nullable = false)
     private LocalDate dataDeCadastro;
+
+    @ManyToMany(mappedBy = "habitats")
+    private List<Animal> animais;
 }

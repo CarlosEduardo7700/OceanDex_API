@@ -80,4 +80,11 @@ public class AnimalController {
 
         return ResponseEntity.ok(new DetalhesAnimaisDto(animal));
     }
+
+    @DeleteMapping("{id}")
+    @Transactional
+    public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

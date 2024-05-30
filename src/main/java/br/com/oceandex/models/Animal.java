@@ -1,5 +1,6 @@
 package br.com.oceandex.models;
 
+import br.com.oceandex.models.dtos.AtualizarAnimalDto;
 import br.com.oceandex.models.dtos.CadastrarAnimalDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -68,5 +69,23 @@ public class Animal {
         this.imagem = dto.imagem();
         this.especie = especie;
         this.dieta = dieta;
+    }
+
+    public void atualizarDados(AtualizarAnimalDto dto, Especie especie, Dieta dieta) {
+        if (dto.nomeComum() != null)
+            this.nomeComum = dto.nomeComum();
+        if (dto.nomeCientifico() != null)
+            this.nomeCientifico = dto.nomeCientifico();
+        if (dto.descricao() != null)
+            this.descricao = dto.descricao();
+        if (dto.status() != null)
+            this.status = dto.status();
+        if (dto.imagem() != null)
+            this.imagem = dto.imagem();
+        if (especie != null)
+            this.especie = especie;
+        if (dieta != null)
+            this.dieta = dieta;
+
     }
 }

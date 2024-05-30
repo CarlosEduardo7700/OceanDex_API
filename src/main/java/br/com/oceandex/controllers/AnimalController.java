@@ -1,20 +1,24 @@
 package br.com.oceandex.controllers;
 
 import br.com.oceandex.models.Animal;
+import br.com.oceandex.models.Dieta;
+import br.com.oceandex.models.Especie;
+import br.com.oceandex.models.dtos.AtualizarAnimalDto;
 import br.com.oceandex.models.dtos.CadastrarAnimalDto;
 import br.com.oceandex.models.dtos.DetalhesAnimaisDto;
+import br.com.oceandex.models.dtos.ListagemAnimalDto;
 import br.com.oceandex.repositories.AnimalRepository;
 import br.com.oceandex.repositories.DietaRepository;
 import br.com.oceandex.repositories.EspecieRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("animais")
@@ -39,5 +43,41 @@ public class AnimalController {
         repository.save(animal);
         var uri = builder.path("animais/{id}").buildAndExpand(animal.getId()).toUri();
         return ResponseEntity.created(uri).body(new DetalhesAnimaisDto(animal));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ListagemAnimalDto>> buscarTudo(Pageable pageable) {
+
+        var lista = repository.findAll(pageable)
+                .stream().map(ListagemAnimalDto::new).toList();
+
+        if (!lista.isEmpty())
+            return ResponseEntity.ok(lista);
+        else
+            return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<DetalhesAnimaisDto> buscarPorId(@PathVariable("id") Long id) {
+        var animal = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DetalhesAnimaisDto(animal));
+    }
+
+    @PutMapping("{id}")
+    @Transactional
+    public ResponseEntity<DetalhesAnimaisDto> atualizar(@PathVariable("id") Long id, @RequestBody @Valid AtualizarAnimalDto dto) {
+        var animal = repository.getReferenceById(id);
+        Especie especie = null;
+        Dieta dieta = null;
+
+        if (dto.idEspecie() != null)
+            especie = especieRepository.getReferenceById(dto.idEspecie());
+
+        if (dto.idDieta() != null)
+            dieta = dietaRepository.getReferenceById(dto.idDieta());
+
+        animal.atualizarDados(dto, especie, dieta);
+
+        return ResponseEntity.ok(new DetalhesAnimaisDto(animal));
     }
 }

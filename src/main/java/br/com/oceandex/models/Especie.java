@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 @Table(name = "OD_ESPECIE")
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Especie {
 
     @Id
@@ -26,6 +29,7 @@ public class Especie {
     @Column(name = "DESC_ESPECIE", length = 500, nullable = false)
     private String descricao;
 
+    @CreatedDate
     @Column(name = "DT_CADASTRO", nullable = false)
     private LocalDate dataDeCadastro;
 

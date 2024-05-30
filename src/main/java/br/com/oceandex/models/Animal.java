@@ -1,10 +1,13 @@
 package br.com.oceandex.models;
 
+import br.com.oceandex.models.dtos.CadastrarAnimalDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.List;
 @Table(name = "OD_ANIMAL")
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Animal {
 
     @Id
@@ -35,6 +39,7 @@ public class Animal {
     @Column(name = "IMG_ANIMAL", length = 100, nullable = false)
     private String imagem;
 
+    @CreatedDate
     @Column(name = "DT_CAD_ANIMAL", nullable = false)
     private LocalDate dataDeCadastro;
 
@@ -54,4 +59,14 @@ public class Animal {
 
     @OneToMany(mappedBy = "animal", fetch = FetchType.LAZY)
     private List<IdentificacaoDoAnimal> identificacoesDoAnimal;
+
+    public Animal(CadastrarAnimalDto dto, Especie especie, Dieta dieta) {
+        this.nomeComum = dto.nomeComum();
+        this.nomeCientifico = dto.nomeCientifico();
+        this.descricao = dto.descricao();
+        this.status = dto.status();
+        this.imagem = dto.imagem();
+        this.especie = especie;
+        this.dieta = dieta;
+    }
 }

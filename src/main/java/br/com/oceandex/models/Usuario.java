@@ -1,5 +1,6 @@
 package br.com.oceandex.models;
 
+import br.com.oceandex.models.dtos.CadastrarUsuarioDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,4 +42,11 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<IdentificacaoDoAnimal> identificacoesDoAnimal;
+
+    public Usuario(CadastrarUsuarioDto dto) {
+        nome = dto.nome();
+        email = dto.email();
+        senha = dto.senha();
+        fotoDePerfil = dto.fotoDePerfil();
+    }
 }

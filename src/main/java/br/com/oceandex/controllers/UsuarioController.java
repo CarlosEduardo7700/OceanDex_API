@@ -59,4 +59,11 @@ public class UsuarioController {
 
         return ResponseEntity.ok(new DetalhesUsuarioDto(usuario));
     }
+
+    @DeleteMapping("{id}")
+    @Transactional
+    public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

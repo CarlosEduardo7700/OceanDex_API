@@ -1,6 +1,7 @@
 package br.com.oceandex.controllers;
 
 import br.com.oceandex.models.Usuario;
+import br.com.oceandex.models.dtos.EmailUsuarioDto;
 import br.com.oceandex.models.dtos.usuario.AtualizarUsuarioDto;
 import br.com.oceandex.models.dtos.usuario.CadastrarUsuarioDto;
 import br.com.oceandex.models.dtos.usuario.DetalhesUsuarioDto;
@@ -8,6 +9,7 @@ import br.com.oceandex.models.dtos.usuario.ListagemUsuarioDto;
 import br.com.oceandex.repositories.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +51,13 @@ public class UsuarioController {
     public ResponseEntity<DetalhesUsuarioDto> buscarPorId(@PathVariable("id") Long id) {
         var usuario = repository.getReferenceById(id);
         return ResponseEntity.ok(new DetalhesUsuarioDto(usuario));
+    }
+
+    @GetMapping("email")
+    public ResponseEntity<Page<DetalhesUsuarioDto>> buscarPorEmail(@RequestBody EmailUsuarioDto dto,
+                                                                   Pageable pageable) {
+        var page = repository.findByEmail(dto.email(), pageable).map(DetalhesUsuarioDto::new);
+        return ResponseEntity.ok(page);
     }
 
     @PutMapping("{id}")

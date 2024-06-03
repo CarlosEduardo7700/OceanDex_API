@@ -64,7 +64,12 @@ public class UsuarioController {
     @DeleteMapping("{id}")
     @Transactional
     public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
-        repository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

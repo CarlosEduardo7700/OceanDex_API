@@ -1,5 +1,7 @@
 package br.com.oceandex.controllers;
 
+import br.com.oceandex.models.Dieta;
+import br.com.oceandex.models.Especie;
 import br.com.oceandex.models.Usuario;
 import br.com.oceandex.models.dtos.*;
 import br.com.oceandex.repositories.UsuarioRepository;
@@ -45,6 +47,16 @@ public class UsuarioController {
     @GetMapping("{id}")
     public ResponseEntity<DetalhesUsuarioDto> buscarPorId(@PathVariable("id") Long id) {
         var usuario = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DetalhesUsuarioDto(usuario));
+    }
+
+    @PutMapping("{id}")
+    @Transactional
+    public ResponseEntity<DetalhesUsuarioDto> atualizar(@PathVariable("id") Long id, @RequestBody @Valid AtualizarUsuarioDto dto) {
+        var usuario = repository.getReferenceById(id);
+
+        usuario.atualizarDados(dto);
+
         return ResponseEntity.ok(new DetalhesUsuarioDto(usuario));
     }
 }

@@ -1,5 +1,6 @@
 package br.com.oceandex.models;
 
+import br.com.oceandex.models.dtos.AtualizarUsuarioDto;
 import br.com.oceandex.models.dtos.CadastrarUsuarioDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -48,5 +49,16 @@ public class Usuario {
         email = dto.email();
         senha = dto.senha();
         fotoDePerfil = dto.fotoDePerfil();
+    }
+
+    public void atualizarDados(AtualizarUsuarioDto dto) {
+        if (dto.nome() != null)
+            nome = dto.nome();
+        if (dto.email() != null)
+            email = dto.email();
+        if (dto.senha() != null)
+            senha = dto.senha();
+        if (dto.fotoDePerfil() != null)
+            fotoDePerfil = dto.fotoDePerfil();
     }
 }

@@ -1,4 +1,4 @@
-package br.com.oceandex.models.dtos;
+package br.com.oceandex.models.dtos.usuario;
 
 import br.com.oceandex.models.Usuario;
 

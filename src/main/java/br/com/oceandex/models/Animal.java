@@ -1,7 +1,7 @@
 package br.com.oceandex.models;
 
-import br.com.oceandex.models.dtos.AtualizarAnimalDto;
-import br.com.oceandex.models.dtos.CadastrarAnimalDto;
+import br.com.oceandex.models.dtos.animal.AtualizarAnimalDto;
+import br.com.oceandex.models.dtos.animal.CadastrarAnimalDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

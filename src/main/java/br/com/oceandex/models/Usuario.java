@@ -1,7 +1,7 @@
 package br.com.oceandex.models;
 
-import br.com.oceandex.models.dtos.AtualizarUsuarioDto;
-import br.com.oceandex.models.dtos.CadastrarUsuarioDto;
+import br.com.oceandex.models.dtos.usuario.AtualizarUsuarioDto;
+import br.com.oceandex.models.dtos.usuario.CadastrarUsuarioDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

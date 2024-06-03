@@ -1,9 +1,10 @@
 package br.com.oceandex.controllers;
 
-import br.com.oceandex.models.Dieta;
-import br.com.oceandex.models.Especie;
 import br.com.oceandex.models.Usuario;
-import br.com.oceandex.models.dtos.*;
+import br.com.oceandex.models.dtos.usuario.AtualizarUsuarioDto;
+import br.com.oceandex.models.dtos.usuario.CadastrarUsuarioDto;
+import br.com.oceandex.models.dtos.usuario.DetalhesUsuarioDto;
+import br.com.oceandex.models.dtos.usuario.ListagemUsuarioDto;
 import br.com.oceandex.repositories.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

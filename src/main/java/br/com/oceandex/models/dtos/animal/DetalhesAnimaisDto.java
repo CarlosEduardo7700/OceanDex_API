@@ -1,4 +1,4 @@
-package br.com.oceandex.models.dtos;
+package br.com.oceandex.models.dtos.animal;
 
 import br.com.oceandex.models.Animal;
 import br.com.oceandex.models.Dieta;

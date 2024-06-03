@@ -1,4 +1,4 @@
-package br.com.oceandex.models.dtos;
+package br.com.oceandex.models.dtos.usuario;
 
 public record AtualizarUsuarioDto(
         String nome,

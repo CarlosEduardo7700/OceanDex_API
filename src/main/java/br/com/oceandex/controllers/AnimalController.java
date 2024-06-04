@@ -3,11 +3,8 @@ package br.com.oceandex.controllers;
 import br.com.oceandex.models.Animal;
 import br.com.oceandex.models.Dieta;
 import br.com.oceandex.models.Especie;
-import br.com.oceandex.models.dtos.animal.AtualizarAnimalDto;
-import br.com.oceandex.models.dtos.animal.CadastrarAnimalDto;
-import br.com.oceandex.models.dtos.animal.DetalhesAnimaisDto;
-import br.com.oceandex.models.dtos.animal.ListagemAnimalDto;
-import br.com.oceandex.models.dtos.usuario.ListagemUsuarioDto;
+import br.com.oceandex.models.dtos.animal.*;
+import br.com.oceandex.models.dtos.usuario.DetalhesUsuarioDto;
 import br.com.oceandex.repositories.AnimalRepository;
 import br.com.oceandex.repositories.DietaRepository;
 import br.com.oceandex.repositories.EspecieRepository;
@@ -19,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("animais")
@@ -62,6 +57,16 @@ public class AnimalController {
     public ResponseEntity<DetalhesAnimaisDto> buscarPorId(@PathVariable("id") Long id) {
         var animal = repository.getReferenceById(id);
         return ResponseEntity.ok(new DetalhesAnimaisDto(animal));
+    }
+
+    @GetMapping("especie/nome")
+    public ResponseEntity<Page<DetalhesAnimaisDto>> buscarPorNomeDaEspecie(@RequestBody NomeEspecieAnimalDto dto,
+                                                                   Pageable pageable) {
+        var page = repository.findByEspecieNome(dto.nomeDaEspecie(), pageable).map(DetalhesAnimaisDto::new);
+        if (!page.isEmpty())
+            return ResponseEntity.ok(page);
+        else
+            return ResponseEntity.notFound().build();
     }
 
     @PutMapping("{id}")

@@ -7,11 +7,13 @@ import br.com.oceandex.models.dtos.animal.AtualizarAnimalDto;
 import br.com.oceandex.models.dtos.animal.CadastrarAnimalDto;
 import br.com.oceandex.models.dtos.animal.DetalhesAnimaisDto;
 import br.com.oceandex.models.dtos.animal.ListagemAnimalDto;
+import br.com.oceandex.models.dtos.usuario.ListagemUsuarioDto;
 import br.com.oceandex.repositories.AnimalRepository;
 import br.com.oceandex.repositories.DietaRepository;
 import br.com.oceandex.repositories.EspecieRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,13 +48,12 @@ public class AnimalController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ListagemAnimalDto>> buscarTudo(Pageable pageable) {
+    public ResponseEntity<Page<ListagemAnimalDto>> buscarTudo(Pageable pageable) {
+        var page = repository.findAll(pageable)
+                .map(ListagemAnimalDto::new);
 
-        var lista = repository.findAll(pageable)
-                .stream().map(ListagemAnimalDto::new).toList();
-
-        if (!lista.isEmpty())
-            return ResponseEntity.ok(lista);
+        if (!page.isEmpty())
+            return ResponseEntity.ok(page);
         else
             return ResponseEntity.notFound().build();
     }

@@ -36,13 +36,13 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ListagemUsuarioDto>> buscarTudo(Pageable pageable) {
+    public ResponseEntity<Page<ListagemUsuarioDto>> buscarTudo(Pageable pageable) {
 
-        var lista = repository.findAll(pageable)
-                .stream().map(ListagemUsuarioDto::new).toList();
+        var page = repository.findAll(pageable)
+                .map(ListagemUsuarioDto::new);
 
-        if (!lista.isEmpty())
-            return ResponseEntity.ok(lista);
+        if (!page.isEmpty())
+            return ResponseEntity.ok(page);
         else
             return ResponseEntity.notFound().build();
     }

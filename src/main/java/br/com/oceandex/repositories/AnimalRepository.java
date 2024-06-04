@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AnimalRepository extends JpaRepository<Animal, Long> {
     Page<Animal> findByEspecieNome(String nome, Pageable pageable);
+    Page<Animal> findByDietaNome(String nome, Pageable pageable);
 }

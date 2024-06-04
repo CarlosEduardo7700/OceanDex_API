@@ -69,6 +69,16 @@ public class AnimalController {
             return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("dieta/nome")
+    public ResponseEntity<Page<DetalhesAnimaisDto>> buscarPorDieta(@RequestBody DietaAnimalDto dto,
+                                                                           Pageable pageable) {
+        var page = repository.findByDietaNome(dto.dieta(), pageable).map(DetalhesAnimaisDto::new);
+        if (!page.isEmpty())
+            return ResponseEntity.ok(page);
+        else
+            return ResponseEntity.notFound().build();
+    }
+
     @PutMapping("{id}")
     @Transactional
     public ResponseEntity<DetalhesAnimaisDto> atualizar(@PathVariable("id") Long id, @RequestBody @Valid AtualizarAnimalDto dto) {

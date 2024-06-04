@@ -23,7 +23,7 @@ public class Habitat {
     @Column(name = "ID_HABITAT")
     private Long id;
 
-    @Column(name = "NM_ESPECIE", length = 200, nullable = false)
+    @Column(name = "NM_HABITAT", length = 200, nullable = false)
     private String nome;
 
     @Column(name = "DESC_HABITAT", length = 300, nullable = false)
@@ -42,6 +42,6 @@ public class Habitat {
     @Column(name = "DT_CADASTRO", nullable = false)
     private LocalDate dataDeCadastro;
 
-    @ManyToMany(mappedBy = "habitats")
-    private List<Animal> animais;
+    @OneToMany(mappedBy = "habitat", fetch = FetchType.LAZY)
+    private List<HabitatDoAnimal> habitatsDoAnimal;
 }

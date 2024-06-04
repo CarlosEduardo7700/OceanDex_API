@@ -8,6 +8,7 @@ import br.com.oceandex.models.dtos.usuario.DetalhesUsuarioDto;
 import br.com.oceandex.repositories.AnimalRepository;
 import br.com.oceandex.repositories.DietaRepository;
 import br.com.oceandex.repositories.EspecieRepository;
+import br.com.oceandex.repositories.HabitatDoAnimalRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,9 @@ public class AnimalController {
 
     @Autowired
     private DietaRepository dietaRepository;
+
+    @Autowired
+    private HabitatDoAnimalRepository habitatDoAnimalRepository;
 
     @PostMapping
     @Transactional
@@ -73,6 +77,16 @@ public class AnimalController {
     public ResponseEntity<Page<DetalhesAnimaisDto>> buscarPorDieta(@RequestBody DietaAnimalDto dto,
                                                                            Pageable pageable) {
         var page = repository.findByDietaNome(dto.dieta(), pageable).map(DetalhesAnimaisDto::new);
+        if (!page.isEmpty())
+            return ResponseEntity.ok(page);
+        else
+            return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("habitat/nome")
+    public ResponseEntity<Page<DetalhesAnimaisDto>> buscarPorDieta(@RequestBody NomeHabitatAnimalDto dto,
+                                                                           Pageable pageable) {
+        var page = habitatDoAnimalRepository.buscarAnimaisPorNomeDoHabitat(dto.nomeDoHabitat(), pageable).map(DetalhesAnimaisDto::new);
         if (!page.isEmpty())
             return ResponseEntity.ok(page);
         else

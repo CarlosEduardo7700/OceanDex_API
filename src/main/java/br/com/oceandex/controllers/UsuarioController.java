@@ -1,11 +1,11 @@
 package br.com.oceandex.controllers;
 
+import br.com.oceandex.models.IdentificacaoDoAnimal;
 import br.com.oceandex.models.Usuario;
-import br.com.oceandex.models.dtos.usuario.EmailUsuarioDto;
-import br.com.oceandex.models.dtos.usuario.AtualizarUsuarioDto;
-import br.com.oceandex.models.dtos.usuario.CadastrarUsuarioDto;
-import br.com.oceandex.models.dtos.usuario.DetalhesUsuarioDto;
-import br.com.oceandex.models.dtos.usuario.ListagemUsuarioDto;
+import br.com.oceandex.models.dtos.animal.DetalhesAnimaisDto;
+import br.com.oceandex.models.dtos.animal.NomeHabitatAnimalDto;
+import br.com.oceandex.models.dtos.usuario.*;
+import br.com.oceandex.repositories.IdentificacaoDoAnimalRepository;
 import br.com.oceandex.repositories.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository repository;
+
+    @Autowired
+    private IdentificacaoDoAnimalRepository identDoAnimalRepository;
 
     @PostMapping
     @Transactional
@@ -55,6 +58,16 @@ public class UsuarioController {
     public ResponseEntity<Page<DetalhesUsuarioDto>> buscarPorEmail(@RequestBody EmailUsuarioDto dto,
                                                                    Pageable pageable) {
         var page = repository.findByEmail(dto.email(), pageable).map(DetalhesUsuarioDto::new);
+        if (!page.isEmpty())
+            return ResponseEntity.ok(page);
+        else
+            return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("identificacoes")
+    public ResponseEntity<Page<DetalhesIdentificacaoDto>> buscarIdentificacoesPorIdDoUsuario(@RequestParam("usuario") Long id,
+                                                                         Pageable pageable) {
+        var page = identDoAnimalRepository.findByUsuarioId(id, pageable).map(DetalhesIdentificacaoDto::new);
         if (!page.isEmpty())
             return ResponseEntity.ok(page);
         else

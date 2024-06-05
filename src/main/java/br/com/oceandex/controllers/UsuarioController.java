@@ -36,6 +36,12 @@ public class UsuarioController {
         return ResponseEntity.created(uri).body(new DetalhesUsuarioDto(usuario));
     }
 
+    @PostMapping("login")
+    public ResponseEntity<DetalhesUsuarioDto> login(@RequestBody @Valid LoginUsuarioDto dto) {
+        var usuarioProcurado = repository.findByEmailAndSenha(dto.email(), dto.senha());
+        return usuarioProcurado.map(usuario -> ResponseEntity.ok(new DetalhesUsuarioDto(usuario))).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @GetMapping
     public ResponseEntity<Page<ListagemUsuarioDto>> buscarTudo(Pageable pageable) {
 
